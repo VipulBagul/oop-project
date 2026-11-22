@@ -6,10 +6,30 @@
  * ============================================================================
  */
 
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#ifdef _MSC_VER
+#pragma comment(lib, "ws2_32.lib")
+#endif
+#else
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <netdb.h>
+#include <signal.h>
+#include <cerrno>
+
+typedef int SOCKET;
+#define INVALID_SOCKET (-1)
+#define SOCKET_ERROR (-1)
+#define closesocket(s) close(s)
+#define WSAGetLastError() errno
+#endif
 
 #include <iostream>
 #include <iomanip>
@@ -22,8 +42,6 @@
 #include <cstdlib>
 #include <algorithm>
 #include <map>
-
-#pragma comment(lib, "ws2_32.lib")
 
 // ============================================================================
 // 1. CORE DOMAIN CLASSES
@@ -856,20 +874,28 @@ public:
 
     ~LocalhostHttpServer() {
         if (listenSocket != INVALID_SOCKET) closesocket(listenSocket);
+#ifdef _WIN32
         WSACleanup();
+#endif
     }
 
     bool start() {
+#ifdef _WIN32
         WSADATA wsaData;
         if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
             std::cerr << "Failed to initialize Winsock." << std::endl;
             return false;
         }
+#else
+        signal(SIGPIPE, SIG_IGN);
+#endif
 
-        listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        listenSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (listenSocket == INVALID_SOCKET) {
             std::cerr << "Error creating socket." << std::endl;
+#ifdef _WIN32
             WSACleanup();
+#endif
             return false;
         }
 
@@ -884,27 +910,36 @@ public:
         if (bind(listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
             std::cerr << "Bind failed with error: " << WSAGetLastError() << std::endl;
             closesocket(listenSocket);
+#ifdef _WIN32
             WSACleanup();
+#endif
             return false;
         }
 
         if (listen(listenSocket, SOMAXCONN) == SOCKET_ERROR) {
             std::cerr << "Listen failed with error: " << WSAGetLastError() << std::endl;
             closesocket(listenSocket);
+#ifdef _WIN32
             WSACleanup();
+#endif
             return false;
         }
 
         std::cout << "\n======================================================================\n";
-        std::cout << "  TECHHOUSE E-COMMERCE & ADMIN PORTAL - LOCALHOST HTTP SERVER (INR Edition)\n";
+        std::cout << "  TECHHOUSE E-COMMERCE & ADMIN PORTAL - HTTP SERVER (INR Edition)\n";
         std::cout << "  Status: RUNNING\n";
+        std::cout << "  Port: " << port << "\n";
         std::cout << "  Access in Browser at: http://localhost:" << port << "\n";
         std::cout << "  Press Ctrl+C to terminate the server.\n";
         std::cout << "======================================================================\n\n";
 
         while (true) {
             sockaddr_in clientAddr;
+#ifdef _WIN32
             int clientAddrLen = sizeof(clientAddr);
+#else
+            socklen_t clientAddrLen = sizeof(clientAddr);
+#endif
             SOCKET clientSocket = accept(listenSocket, (sockaddr*)&clientAddr, &clientAddrLen);
 
             if (clientSocket != INVALID_SOCKET) {
@@ -918,10 +953,15 @@ public:
 
 int main(int argc, char* argv[]) {
     int port = 8080;
-    if (argc > 1) {
+
+    const char* envPort = std::getenv("PORT");
+    if (envPort) {
+        port = std::atoi(envPort);
+    } else if (argc > 1) {
         port = std::atoi(argv[1]);
-        if (port <= 0 || port > 65535) port = 8080;
     }
+
+    if (port <= 0 || port > 65535) port = 8080;
 
     LocalhostHttpServer server(port);
     server.start();
