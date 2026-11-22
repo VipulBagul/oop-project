@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechHouse India | Electronics, Peripherals &amp; Workspace Gear</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Announcement Strip (Amazon/Flipkart Style) -->
+    <div class="top-announcement-bar">
+        <div class="announcement-content">
+            <span class="sale-tag">MEGA ELECTRONICS SALE</span>
+            <span>Up to 40% Off on Keyboards, 4K Displays &amp; Studio Audio | <strong>10% Instant Discount on UPI &amp; RuPay Cards</strong></span>
+            <span class="delivery-perk">⚡ Free Delivery Across India</span>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header (Flipkart/Amazon Style) -->
+    <header class="navbar">
+        <div class="nav-container">
+            <!-- Brand Logo -->
+            <div class="nav-brand" id="brandLogo">
+                <div class="brand-square">TH</div>
+                <div class="brand-text">
+                    <h1>TECH<span>HOUSE</span></h1>
+                    <div class="brand-sub">
+                        <span>Explore</span>
+                        <span class="plus-badge">Assured ★</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amazon/Flipkart Large Central Search Bar -->
+            <div class="amazon-search-bar">
+                <div class="search-category-select">
+                    <select id="searchCategorySelect">
+                        <option value="all">All Categories</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Audio">Audio</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Storage">Storage</option>
+                        <option value="Furniture">Furniture</option>
+                    </select>
+                </div>
+                <input type="text" id="globalSearchInput" placeholder="Search for monitors, mechanical keyboards, audio gear &amp; more..." autocomplete="off">
+                <button id="searchBtn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Right Actions: Switcher, User Auth, Cart -->
+            <div class="nav-actions">
+                <!-- Portal Mode Switcher -->
+                <div class="portal-toggle-group">
+                    <button class="portal-btn active" id="viewStorefrontBtn">Storefront</button>
+                    <button class="portal-btn" id="viewAdminBtn">Admin Portal</button>
+                </div>
+
+                <!-- User Account Button -->
+                <div class="auth-action-box" id="authBox">
+                    <button class="nav-auth-btn" id="openAuthModalBtn">
+                        <div class="auth-greeting">Hello, Sign In</div>
+                        <div class="auth-account-title">Account &amp; Lists</div>
+                    </button>
+                    <div class="logged-user-chip" id="loggedUserChip" style="display:none;">
+                        <span class="user-role-badge" id="navUserRole">Customer</span>
+                        <span class="user-name-text" id="navUserName">Aarav</span>
+                        <button class="logout-icon-btn" id="logoutBtn" title="Sign Out">&times;</button>
+                    </div>
+                </div>
+
+                <!-- Shopping Cart Button (Flipkart Style) -->
+                <button class="cart-trigger-btn" id="openCartBtn" aria-label="View Shopping Cart">
+                    <div class="cart-icon-wrap">
+                        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-badge" id="cartCountBadge">0</span>
+                    </div>
+                    <div class="cart-btn-details">
+                        <span class="cart-label-sub">Cart</span>
+                        <span class="cart-btn-total" id="cartNavTotal">₹0</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Flipkart-style Secondary Category Strip -->
+    <nav class="sub-nav-categories">
+        <div class="sub-nav-container" id="categoryFilters">
+            <button class="cat-strip-btn active" data-category="all">
+                <span class="cat-icon">🏷️</span>
+                <span>All Deals</span>
+            </button>
+            <button class="cat-strip-btn" data-category="Electronics">
+                <span class="cat-icon">💻</span>
+                <span>Electronics &amp; Displays</span>
+            </button>
+            <button class="cat-strip-btn" data-category="Audio">
+                <span class="cat-icon">🎧</span>
+                <span>Headphones &amp; Audio</span>
+            </button>
+            <button class="cat-strip-btn" data-category="Accessories">
+                <span class="cat-icon">🔌</span>
+                <span>Fast Chargers &amp; Cables</span>
+            </button>
+            <button class="cat-strip-btn" data-category="Storage">
+                <span class="cat-icon">💾</span>
+                <span>SSDs &amp; High-Speed Storage</span>
+            </button>
+            <button class="cat-strip-btn" data-category="Furniture">
+                <span class="cat-icon">📐</span>
+                <span>Desk Stands &amp; Ergonomics</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+
+        <!-- ================================================================== -->
+        <!-- 1. CUSTOMER STOREFRONT VIEW (Amazon / Flipkart Style)               -->
+        <!-- ================================================================== -->
+        <section class="app-view-pane active" id="storefrontView">
+
+            <!-- Hero Banner: Amazon/Flipkart Big Festival Deals -->
+            <section class="deals-hero-slider">
+                <div class="deals-hero-left">
+                    <div class="deals-badge-strip">
+                        <span class="fest-pill">GRAND ELECTRONICS FESTIVAL</span>
+                        <span class="live-pulse-pill"><span class="dot-live"></span> DEALS LIVE</span>
+                    </div>
+                    <h2 class="deals-hero-title">Upgrade Your Workspace Setup</h2>
+                    <p class="deals-hero-desc">Grab up to <strong>40% OFF</strong> on premium mechanical keyboards, 4K color-graded displays, and studio-grade noise-cancelling headphones.</p>
+                    
+                    <!-- Countdown Timer -->
+                    <div class="deals-timer-box">
+                        <span class="timer-label">⚡ Flash Sale Ends In:</span>
+                        <div class="timer-digits">
+                            <span class="time-block" id="timerHours">04</span>h :
+                            <span class="time-block" id="timerMins">28</span>m :
+                            <span class="time-block" id="timerSecs">50</span>s
+                        </div>
+                    </div>
+
+                    <div class="deals-bank-offer-row">
+                        <span class="bank-tag">BANK OFFER</span>
+                        <span>10% Instant Discount on HDFC, SBI, ICICI &amp; Axis Bank Cards &bull; No Cost EMI Available</span>
+                    </div>
+                </div>
+
+                <!-- Right Side: 4 Featured Deal Cards (Flipkart Style) -->
+                <div class="deals-hero-grid">
+                    <div class="deal-quad-card" data-category="Electronics">
+                        <div class="deal-img-box">
+                            <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&auto=format&fit=crop&q=80" alt="Mechanical Keyboards" class="deal-img">
+                            <span class="discount-badge">Up to 35% Off</span>
+                        </div>
+                        <div class="deal-meta">
+                            <h4>Mechanical Keyboards</h4>
+                            <span class="deal-price-from">From ₹7,999</span>
+                        </div>
+                    </div>
+
+                    <div class="deal-quad-card" data-category="Electronics">
+                        <div class="deal-img-box">
+                            <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&auto=format&fit=crop&q=80" alt="4K Ultra-wide Displays" class="deal-img">
+                            <span class="discount-badge">Min. 25% Off</span>
+                        </div>
+                        <div class="deal-meta">
+                            <h4>4K UHD Displays</h4>
+                            <span class="deal-price-from">From ₹28,990</span>
+                        </div>
+                    </div>
+
+                    <div class="deal-quad-card" data-category="Audio">
+                        <div class="deal-img-box">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&auto=format&fit=crop&q=80" alt="Studio Audio & ANC" class="deal-img">
+                            <span class="discount-badge">Special Price</span>
+                        </div>
+                        <div class="deal-meta">
+                            <h4>ANC Headphones</h4>
+                            <span class="deal-price-from">From ₹4,999</span>
+                        </div>
+                    </div>
+
+                    <div class="deal-quad-card" data-category="Storage">
+                        <div class="deal-img-box">
+                            <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&auto=format&fit=crop&q=80" alt="High Speed NVMe Storage" class="deal-img">
+                            <span class="discount-badge">Top Seller</span>
+                        </div>
+                        <div class="deal-meta">
+                            <h4>Portable SSDs</h4>
+                            <span class="deal-price-from">From ₹2,499</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Store Catalog Section -->
+            <section class="catalog-section" id="catalogSection">
+                <div class="section-header">
+                    <div class="section-header-titles">
+                        <h3 class="section-title">Today's Deals &amp; Recommended Gear</h3>
+                        <p class="section-subtitle">Prices inclusive of GST &bull; 100% Genuine Products with Brand Warranty</p>
+                    </div>
+
+                    <div class="catalog-sort-filter">
+                        <label for="catalogSort">Sort By:</label>
+                        <select id="catalogSort" class="catalog-sort-select">
+                            <option value="featured">Featured / Popular</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Customer Rating</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Populated dynamically via app.js -->
+                </div>
+            </section>
+        </section>
+
+
+        <!-- ================================================================== -->
+        <!-- 2. ADMIN MANAGEMENT PORTAL VIEW (Indian Rupee ₹ Edition)            -->
+        <!-- ================================================================== -->
+        <section class="app-view-pane" id="adminView">
+            <div class="admin-top-bar">
+                <div>
+                    <span class="admin-pill">SELLER &amp; INVENTORY HUB</span>
+                    <h2 class="admin-title">Merchant Management Console</h2>
+                    <p class="admin-subtitle">Update product prices in INR (₹), restock quantities, add new hardware, or view total revenue.</p>
+                </div>
+                <div class="admin-top-actions">
+                    <button class="btn btn-primary" id="openAddProductModalBtn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>Add New Product</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Stats Cards Row -->
+            <div class="admin-stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">TOTAL CATALOG ITEMS</div>
+                    <div class="stat-value" id="statTotalProducts">0</div>
+                    <div class="stat-hint">Active SKUs listed in store</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">TOTAL STOCK UNITS</div>
+                    <div class="stat-value" id="statTotalStockUnits">0</div>
+                    <div class="stat-hint">Physical inventory in warehouse</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">LOW STOCK ALERTS</div>
+                    <div class="stat-value stat-alert" id="statLowStockCount">0</div>
+                    <div class="stat-hint">Items with &le; 5 units</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">TOTAL REVENUE (INR)</div>
+                    <div class="stat-value stat-revenue" id="statTotalRevenue">₹0.00</div>
+                    <div class="stat-hint">Accumulated order collections</div>
+                </div>
+            </div>
+
+            <!-- Admin Product Inventory Table -->
+            <div class="admin-table-container">
+                <div class="table-header-bar">
+                    <h4>Merchant Inventory Directory</h4>
+                    <span class="table-badge" id="adminTableCountBadge">8 Items Found</span>
+                </div>
+                <table class="admin-table" id="adminProductsTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">ID</th>
+                            <th style="width: 80px;">Thumbnail</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th style="text-align: right;">Selling Price (₹)</th>
+                            <th style="text-align: right;">M.R.P. (₹)</th>
+                            <th style="text-align: center;">Stock</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminProductsTbody">
+                        <!-- Populated dynamically via app.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE-OVER SHOPPING CART DRAWER (Flipkart / Amazon Style)           -->
+    <!-- ================================================================== -->
+    <div class="cart-drawer-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+        <div class="cart-drawer-header">
+            <div class="drawer-title-group">
+                <h3>Shopping Cart</h3>
+                <span class="drawer-item-count" id="drawerItemCount">0 items</span>
+            </div>
+            <button class="close-drawer-btn" id="closeCartBtn" aria-label="Close Cart">&times;</button>
+        </div>
+
+        <div class="cart-drawer-body" id="cartItemsList">
+            <!-- Populated via app.js -->
+        </div>
+
+        <div class="cart-drawer-footer" id="cartFooter">
+            <div class="price-breakdown-box">
+                <div class="breakdown-title">PRICE DETAILS</div>
+                <div class="summary-line">
+                    <span>Price (<span id="cartUnitsLabel">0 items</span>)</span>
+                    <span id="drawerOriginalSubtotal" class="summary-amount">₹0.00</span>
+                </div>
+                <div class="summary-line text-success">
+                    <span>Discount on MRP</span>
+                    <span id="drawerSavings" class="summary-amount text-success">- ₹0.00</span>
+                </div>
+                <div class="summary-line">
+                    <span>Delivery Charges</span>
+                    <span class="summary-amount text-success">FREE</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-line total-line">
+                    <span>Total Amount</span>
+                    <span id="drawerGrandTotal" class="grand-total-amount">₹0.00</span>
+                </div>
+                <div class="savings-callout" id="savingsCalloutBanner">
+                    🎉 You will save ₹0 on this order!
+                </div>
+            </div>
+
+            <div class="drawer-action-buttons">
+                <button class="btn btn-secondary" id="clearCartBtn">Clear Cart</button>
+                <button class="btn btn-primary btn-checkout-main" id="checkoutBtn">Proceed to Checkout &rarr;</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ================================================================== -->
+    <!-- MODAL: USER & ADMIN LOGIN / REGISTRATION                           -->
+    <!-- ================================================================== -->
+    <div class="modal-backdrop" id="authModal">
+        <div class="modal-dialog auth-dialog">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" id="authModalTitle">Account Authentication</h3>
+                    <p class="modal-subtitle">Sign in or register a customer / merchant account</p>
+                </div>
+                <button class="modal-close-btn" id="closeAuthModal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Sign In</button>
+                    <button class="auth-tab" data-tab="register">New Registration</button>
+                </div>
+
+                <div class="quick-creds-box">
+                    <span>Quick Fill:</span>
+                    <button class="quick-cred-btn" id="autofillCustomerBtn">Customer (user)</button>
+                    <button class="quick-cred-btn" id="autofillAdminBtn">Admin (admin)</button>
+                </div>
+
+                <form id="loginForm" class="auth-pane active">
+                    <div class="form-group">
+                        <label for="loginUsername">Username / Mobile</label>
+                        <input type="text" id="loginUsername" class="form-control" placeholder="Enter username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter password" required>
+                    </div>
+                    <div class="error-msg-banner" id="loginError"></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1rem;">Sign In &rarr;</button>
+                </form>
+
+                <form id="registerForm" class="auth-pane">
+                    <div class="form-group">
+                        <label for="regFullName">Full Name</label>
+                        <input type="text" id="regFullName" class="form-control" placeholder="E.g., Aarav Sharma" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regUsername">Username</label>
+                        <input type="text" id="regUsername" class="form-control" placeholder="Choose a username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" class="form-control" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regRole">Account Type / Role</label>
+                        <select id="regRole" class="form-control">
+                            <option value="customer" selected>Customer (Buyer)</option>
+                            <option value="admin">Administrator (Seller / Merchant)</option>
+                        </select>
+                    </div>
+                    <div class="error-msg-banner" id="registerError"></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1rem;">Create Account &rarr;</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- MODAL: ADMIN - ADD NEW PRODUCT                                     -->
+    <!-- ================================================================== -->
+    <div class="modal-backdrop" id="addProductModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">Add New Product to Inventory</h3>
+                    <p class="modal-subtitle">List a new item with Indian Rupee (₹) pricing</p>
+                </div>
+                <button class="modal-close-btn" id="closeAddProductModal">&times;</button>
+            </div>
+            <form id="addProductForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newProdName">Product Title</label>
+                        <input type="text" id="newProdName" class="form-control" placeholder="E.g., Wireless Gaming Headset" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-half">
+                            <label for="newProdCategory">Category</label>
+                            <select id="newProdCategory" class="form-control">
+                                <option value="Electronics">Electronics</option>
+                                <option value="Audio">Audio</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Storage">Storage</option>
+                                <option value="Furniture">Furniture</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-half">
+                            <label for="newProdImage">Product Graphic Type</label>
+                            <select id="newProdImage" class="form-control">
+                                <option value="keyboard">Keyboard</option>
+                                <option value="mouse">Mouse</option>
+                                <option value="monitor">Monitor / Display</option>
+                                <option value="headphones">Headphones / Audio</option>
+                                <option value="powerbank">Power Bank / Fast Charger</option>
+                                <option value="ssd">Portable SSD / NVMe</option>
+                                <option value="stand">Laptop Stand / Furniture</option>
+                                <option value="cable">Cable / Adapter</option>
+                                <option value="gadget" selected>General Gadget</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-half">
+                            <label for="newProdPrice">Selling Price (₹ INR)</label>
+                            <input type="number" step="1" min="0" id="newProdPrice" class="form-control" placeholder="7999" required>
+                        </div>
+                        <div class="form-group col-half">
+                            <label for="newProdOriginalPrice">M.R.P. (₹ INR)</label>
+                            <input type="number" step="1" min="0" id="newProdOriginalPrice" class="form-control" placeholder="10999">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newProdStock">Initial Stock Units</label>
+                        <input type="number" min="0" id="newProdStock" class="form-control" placeholder="25" required>
+                    </div>
+                    <div class="error-msg-banner" id="addProductError"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelAddProductBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save to Inventory</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- MODAL: ADMIN - EDIT PRICE & STOCK                                  -->
+    <!-- ================================================================== -->
+    <div class="modal-backdrop" id="editProductModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">Edit Product Details</h3>
+                    <p class="modal-subtitle" id="editProductSubtitle">Adjust inventory price and stock counts</p>
+                </div>
+                <button class="modal-close-btn" id="closeEditProductModal">&times;</button>
+            </div>
+            <form id="editProductForm">
+                <input type="hidden" id="editProdId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Product Title</label>
+                        <input type="text" id="editProdNameDisplay" class="form-control" readonly disabled>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-half">
+                            <label for="editProdPrice">Selling Price (₹ INR)</label>
+                            <input type="number" step="1" min="0" id="editProdPrice" class="form-control" required>
+                        </div>
+                        <div class="form-group col-half">
+                            <label for="editProdOriginalPrice">M.R.P. (₹ INR)</label>
+                            <input type="number" step="1" min="0" id="editProdOriginalPrice" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProdStock">Stock Units</label>
+                        <input type="number" min="0" id="editProdStock" class="form-control" required>
+                    </div>
+                    <div class="error-msg-banner" id="editProductError"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelEditProductBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- MODAL: CHECKOUT & INDIAN PAYMENT GATEWAYS (UPI, RuPay/Card, COD)   -->
+    <!-- ================================================================== -->
+    <div class="modal-backdrop" id="checkoutModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">Order Checkout</h3>
+                    <p class="modal-subtitle">Choose your payment gateway (UPI, Cards, or Cash on Delivery)</p>
+                </div>
+                <button class="modal-close-btn" id="closeCheckoutModal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="checkout-order-summary">
+                    <span>Total Payable Amount:</span>
+                    <strong class="checkout-total-price" id="checkoutAmount">₹0</strong>
+                </div>
+
+                <div class="payment-tabs">
+                    <button class="pay-tab active" data-method="upi">
+                        <span class="tab-icon">⚡</span>
+                        <span>UPI (GPay/PhonePe)</span>
+                    </button>
+                    <button class="pay-tab" data-method="card">
+                        <span class="tab-icon">💳</span>
+                        <span>RuPay / Cards</span>
+                    </button>
+                    <button class="pay-tab" data-method="cod">
+                        <span class="tab-icon">🚚</span>
+                        <span>Cash on Delivery</span>
+                    </button>
+                </div>
+
+                <!-- UPI Form Pane -->
+                <div class="tab-pane active" id="pane-upi">
+                    <div class="upi-apps-row">
+                        <span class="upi-app-badge">Google Pay</span>
+                        <span class="upi-app-badge">PhonePe</span>
+                        <span class="upi-app-badge">Paytm</span>
+                        <span class="upi-app-badge">BHIM UPI</span>
+                    </div>
+                    <div class="form-group" style="margin-top:0.75rem;">
+                        <label for="upiIdInput">Virtual Payment Address (UPI ID / VPA)</label>
+                        <input type="text" id="upiIdInput" class="form-control" placeholder="e.g. mobile@okaxis / user@paytm" value="aarav@okhdfcbank">
+                        <small class="form-hint">A collect request will be authorized in your UPI app</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="upiPinInput">UPI Security PIN</label>
+                        <input type="password" id="upiPinInput" class="form-control" placeholder="Enter 4 or 6 digit MPIN" maxlength="6" value="1234">
+                        <small class="form-hint">Simulated NPCI / Bank verification</small>
+                    </div>
+                </div>
+
+                <!-- Card Form Pane -->
+                <div class="tab-pane" id="pane-card">
+                    <div class="card-preview">
+                        <div class="card-chip"></div>
+                        <div class="card-number-display" id="cardDisplayNumber">•••• •••• •••• 4242</div>
+                        <div class="card-details-row">
+                            <div>
+                                <div class="card-label">CARD HOLDER</div>
+                                <div class="card-val" id="cardDisplayName">AARAV SHARMA</div>
+                            </div>
+                            <div>
+                                <div class="card-label">EXPIRES</div>
+                                <div class="card-val" id="cardDisplayExpiry">12/28</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardHolderInput">Name on Card</label>
+                        <input type="text" id="cardHolderInput" class="form-control" placeholder="Full name on card" value="Aarav Sharma">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardNumberInput">16-Digit Card Number (RuPay, Visa, MC)</label>
+                        <input type="text" id="cardNumberInput" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" value="4532 8912 3456 4242">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-half">
+                            <label for="cardExpiryInput">Expiry (MM/YY)</label>
+                            <input type="text" id="cardExpiryInput" class="form-control" placeholder="MM/YY" maxlength="5" value="12/28">
+                        </div>
+                        <div class="form-group col-half">
+                            <label for="cardCvvInput">CVV (3 digits)</label>
+                            <input type="password" id="cardCvvInput" class="form-control" placeholder="123" maxlength="3" value="789">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COD Form Pane -->
+                <div class="tab-pane" id="pane-cod">
+                    <div class="form-group">
+                        <label for="codAddressInput">Full Delivery Address with Pincode</label>
+                        <textarea id="codAddressInput" class="form-control" rows="2" placeholder="House/Flat No., Road, City, Pincode">Flat 402, Nilgiri Heights, MG Road, Bengaluru - 560001</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="codPhoneInput">10-Digit Mobile Number</label>
+                        <input type="tel" id="codPhoneInput" class="form-control" placeholder="+91 98765 43210" value="+91 98765 43210">
+                    </div>
+                </div>
+
+                <div class="error-msg-banner" id="checkoutError"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelCheckoutBtn">Cancel</button>
+                <button class="btn btn-primary" id="confirmPaymentBtn">
+                    <span id="btnPayText">Authorize &amp; Pay</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- MODAL: ORDER TAX INVOICE & RECEIPT IN RUPEES (₹)                   -->
+    <!-- ================================================================== -->
+    <div class="modal-backdrop" id="receiptModal">
+        <div class="modal-dialog receipt-dialog">
+            <div class="receipt-header">
+                <div class="receipt-success-badge">✓</div>
+                <h3>Order Placed Successfully!</h3>
+                <p>Tax Invoice generated by TechHouse India &bull; GSTIN: 29AABCT1332L1Z5</p>
+            </div>
+
+            <div class="receipt-body" id="receiptContent">
+                <!-- Rendered dynamically -->
+            </div>
+
+            <div class="modal-footer receipt-footer">
+                <button class="btn btn-secondary" onclick="window.print()">Download / Print Invoice</button>
+                <button class="btn btn-primary" id="closeReceiptBtn">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
